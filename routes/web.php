@@ -21,6 +21,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::get('/users/create', [UserController::class, 'store'])->name('users.create');
     
 });
 Route::middleware('auth')->group(function () {
