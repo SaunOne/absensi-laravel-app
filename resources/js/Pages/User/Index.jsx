@@ -14,10 +14,8 @@ export default function UserIndex({ auth, users }) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    {/* make styling on label */}
                     <div className='p-2 flex'>
                         <label className='text-lg font-semibold'>Total Users : {users.total}</label>
-                        {/* button create */}
                         <Link href={route('users.create')} className='ml-auto bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded'>
                             Create User
                         </Link>
