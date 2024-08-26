@@ -18,7 +18,7 @@ export default function TableUsers({ users }) {
                 </tr>
             </thead>
             <tbody>
-                {users.data.map(({ id, name, email }) => (
+                {users.data.map(({ id, name, email, role }) => (
                     <tr key={id}>
                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                             <div className="text-sm leading-5 text-gray-900">{id}</div>
@@ -30,7 +30,7 @@ export default function TableUsers({ users }) {
                             <div className="text-sm leading-5 text-gray-900">{email}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                            <div className="text-sm leading-5 text-gray-900">&nbsp;</div>
+                            <div className="text-sm leading-5 text-gray-900">{role}</div>
                         </td>
                     </tr>
                 ))}
