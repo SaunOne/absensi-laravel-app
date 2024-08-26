@@ -20,7 +20,7 @@ export default function Authenticated({ user, header, children }) {
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                {menu.map((item, index) => (
+                                {menu(user.role).map((item, index) => (
                                     <NavLink key={index} href={item.href} active={item.current}>
                                         {item.name}
                                     </NavLink>
@@ -93,7 +93,7 @@ export default function Authenticated({ user, header, children }) {
 
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="pt-2 pb-3 space-y-1">
-                        {menu.map((item, index) => (
+                        {menu(user.role).map((item, index) => (
                             <ResponsiveNavLink key={index} href={item.href} active={item.current}>
                                 {item.name}
                             </ResponsiveNavLink>
