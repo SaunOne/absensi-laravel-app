@@ -11,20 +11,18 @@ import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 
 
-export default function Create({ auth }) {
+export default function Edit({ auth, user }) {
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
-    const { data, setData, post, errors, processing } = useForm({
-        name: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
-        role: 'user',
+    const { data, setData, patch, errors, processing } = useForm({
+        name: user.name,
+        email: user.email,
+        role: user.role,
     });
 
     const submit = (e) => {
         e.preventDefault();
-        post(route('users.store'));
+        patch(route('users.update', user));
     };
 
     return (
@@ -91,62 +89,6 @@ export default function Create({ auth }) {
                                     />
 
                                     <InputError className="mt-2" message={errors.role} />
-                                </div>
-
-                                <div>
-                                    <InputLabel htmlFor="password" value="New Password" />
-
-                                    <div className="relative">
-                                        <TextInput
-                                            id="password"
-                                            value={data.password}
-                                            onChange={(e) => setData('password', e.target.value)}
-                                            type={showPassword ? 'text' : 'password'}
-                                            className="mt-1 block w-full"
-                                            autoComplete="new-password"
-                                        />
-                                        <button
-                                            type="button"
-                                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                                            onClick={() => setShowPassword(!showPassword)}
-                                        >
-                                            {showPassword ? (
-                                                <EyeSlashIcon className="h-5 w-5 text-gray-500" />
-                                            ) : (
-                                                <EyeIcon className="h-5 w-5 text-gray-500" />
-                                            )}
-                                        </button>
-                                    </div>
-
-                                    <InputError message={errors.password} className="mt-2" />
-                                </div>
-
-                                <div>
-                                    <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
-
-                                    <div className="relative">
-                                        <TextInput
-                                            id="password_confirmation"
-                                            value={data.password_confirmation}
-                                            onChange={(e) => setData('password_confirmation', e.target.value)}
-                                            type={showPasswordConfirmation ? 'text' : 'password'}
-                                            className="mt-1 block w-full"
-                                            autoComplete="new-password"
-                                        />
-                                        <button
-                                            type="button"
-                                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                                            onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
-                                        >
-                                            {showPasswordConfirmation ? (
-                                                <EyeSlashIcon className="h-5 w-5 text-gray-500" />
-                                            ) : (
-                                                <EyeIcon className="h-5 w-5 text-gray-500" />
-                                            )}
-                                        </button>
-                                    </div>
-
-                                    <InputError message={errors.password_confirmation} className="mt-2" />
                                 </div>
 
                                 <div className="flex items-center gap-4">
