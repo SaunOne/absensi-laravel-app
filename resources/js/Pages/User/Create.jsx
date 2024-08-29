@@ -77,7 +77,7 @@ export default function Create({ auth }) {
                                     <InputError className="mt-2" message={errors.email} />
                                 </div>
                                 <div>
-                                    <InputLabel htmlFor="email" value="Email" />
+                                    <InputLabel htmlFor="role" value="Role" />
 
                                     <SelectBox
                                         id="role"
