@@ -7,9 +7,16 @@ import { useForm } from '@inertiajs/react';
 import SelectBox from '@/Components/SelectBox';
 import { useEffect, useState, useRef } from 'react';
 import { Transition } from '@headlessui/react';
+import { Loader } from '@googlemaps/js-api-loader';
+
 
 
 export default function SubmitAttendance() {
+    const loader = new Loader({
+        apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+        version: "weekly",
+        libraries: ["geocoding"]
+    });
     const descriptionInput = useRef();
     const [showDescription, setShowDescription] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -18,6 +25,7 @@ export default function SubmitAttendance() {
         description: '',
         latitude: '',
         longitude: '',
+        address: '',
         prepareData: {}
     });
 
@@ -31,7 +39,7 @@ export default function SubmitAttendance() {
     }, [data.status]);
 
     useEffect(() => {
-        if (data.prepareData.hasOwnProperty('latitude') && data.prepareData.hasOwnProperty('longitude')) {
+        if (data.prepareData.hasOwnProperty('latitude') && data.prepareData.hasOwnProperty('longitude') && data.prepareData.hasOwnProperty('address')) {
             transform((data) => {
                 return {
                     ...data.prepareData,
@@ -61,13 +69,32 @@ export default function SubmitAttendance() {
     const submit = (e) => {
         e.preventDefault();
         setLoading(true);
+        getLatLong();
+    }
+
+    function getLatLong() {
         navigator.geolocation.getCurrentPosition((position) => {
-            setData('prepareData', {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-            })
+            createGeocoder(position.coords);
         });
-    };
+    }
+
+    function createGeocoder(coords) {
+        loader.load().then(() => {
+            const geocoder = new google.maps.Geocoder();
+            geocoder.geocode({
+                location: {
+                    lat: coords.latitude,
+                    lng: coords.longitude
+                }
+            }).then((response) => {
+                setData('prepareData', {
+                    latitude: coords.latitude,
+                    longitude: coords.longitude,
+                    address: response.results[0].formatted_address
+                });
+            });
+        })
+    }
 
     return (
 

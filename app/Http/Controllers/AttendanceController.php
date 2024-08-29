@@ -12,6 +12,7 @@ class AttendanceController extends Controller
             'description' => 'required_if:status,sick,leave,permit,bussiness_trip,remote',
             'latitude' => 'required',
             'longitude' => 'required',
+            'address' => 'required',
         ]);
 
         Attendance::create([
@@ -20,6 +21,7 @@ class AttendanceController extends Controller
             'description' => $request->description,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
+            'address' => $request->address,
         ]);
     }
 }
