@@ -12,9 +12,13 @@ import { Transition } from '@headlessui/react';
 export default function SubmitAttendance() {
     const descriptionInput = useRef();
     const [showDescription, setShowDescription] = useState(false);
-    const { data, setData, post, reset, errors, processing } = useForm({
+    const [loading, setLoading] = useState(false);
+    const { data, setData, post, transform, reset, errors, recentlySuccessful } = useForm({
         status: 'attend',
         description: '',
+        latitude: '',
+        longitude: '',
+        prepareData: {}
     });
 
     useEffect(() => {
@@ -26,19 +30,42 @@ export default function SubmitAttendance() {
         }
     }, [data.status]);
 
+    useEffect(() => {
+        if (data.prepareData.hasOwnProperty('latitude') && data.prepareData.hasOwnProperty('longitude')) {
+            transform((data) => {
+                return {
+                    ...data.prepareData,
+                    status: data.status,
+                    description: data.description
+                }
+            })
+            post(route('attendance.submit'), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    reset();
+                },
+                onError: (errors) => {
+                    if (errors.description) {
+                        descriptionInput.current.focus();
+                    } else if (errors.status) {
+                        alert(errors.status);
+                    }
+                },
+                onFinish: () => {
+                    setLoading(false);
+                }
+            });
+        }
+    }, [data.prepareData]);
+
     const submit = (e) => {
         e.preventDefault();
-        post(route('attendance.submit'), {
-            preserveScroll: true,
-            onSuccess: () => {
-                alert('Attendance submitted successfully');
-                reset();
-            },
-            onError: (errors) => {
-                if (errors.description) {
-                    descriptionInput.current.focus();
-                }
-            }
+        setLoading(true);
+        navigator.geolocation.getCurrentPosition((position) => {
+            setData('prepareData', {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            })
         });
     };
 
@@ -89,7 +116,16 @@ export default function SubmitAttendance() {
 
 
             <div className="flex items-center gap-4">
-                <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                <PrimaryButton disabled={loading}>Save</PrimaryButton>
+                <Transition
+                    show={recentlySuccessful}
+                    enter="transition ease-in-out"
+                    enterFrom="opacity-0"
+                    leave="transition ease-in-out"
+                    leaveTo="opacity-0"
+                >
+                    <p className="text-sm text-gray-600">Saved.</p>
+                </Transition>
             </div>
         </form>
     );
