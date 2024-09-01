@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+
 class AttendanceController extends Controller
 {
     public function submit(Request $request){
@@ -31,5 +33,12 @@ class AttendanceController extends Controller
         return Attendance::where('user_id', Auth::user()->id)
             ->whereDate('created_at', now()->toDateString())
             ->exists();
+    }
+
+    public function index(){
+        $attendances = Attendance::with('user')->latest()->paginate(10);
+        return Inertia::render('Attendance/Index', [
+            'attendances' => $attendances
+        ]);
     }
 }

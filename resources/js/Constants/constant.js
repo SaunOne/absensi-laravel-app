@@ -13,8 +13,8 @@ export const menu = (role) => {
             },
             {
                 name: 'Absensi',
-                href: route('dashboard'),
-                current: route().current('absensi'),
+                href: route('attendance'),
+                current: route().current('attendance'),
             }
         ]
     } else {

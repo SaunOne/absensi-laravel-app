@@ -23,12 +23,6 @@ export default function TableUsers({ users }) {
 
         reset();
     };
-    const isAdmin = (user) => {
-        if (user.role === 'admin') {
-            return true;
-        }
-        return false;
-    }
     const deleteUser = (e) => {
         e.preventDefault();
         destroy(route('users.destroy', data), {
