@@ -7,7 +7,6 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
 import SelectBox from '@/Components/SelectBox';
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 
 
@@ -18,6 +17,7 @@ export default function Edit({ auth, user }) {
         name: user.name,
         email: user.email,
         role: user.role,
+        uid: user.uid,
     });
 
     const submit = (e) => {
@@ -46,6 +46,20 @@ export default function Edit({ auth, user }) {
 
                             <form onSubmit={submit} className="mt-6 space-y-6">
                                 <div>
+                                    <InputLabel htmlFor="uid" value="RFID" />
+
+                                    <TextInput
+                                        id="uid"
+                                        className="mt-1 block w-full"
+                                        value={data.uid}
+                                        onChange={(e) => setData('uid', e.target.value)}
+                                        isFocused
+                                        readOnly
+                                    />
+
+                                    <InputError className="mt-2" message={errors.uid} />
+                                </div>
+                                <div>
                                     <InputLabel htmlFor="name" value="Name" />
 
                                     <TextInput
@@ -59,6 +73,8 @@ export default function Edit({ auth, user }) {
 
                                     <InputError className="mt-2" message={errors.name} />
                                 </div>
+
+
 
                                 <div>
                                     <InputLabel htmlFor="email" value="Email" />

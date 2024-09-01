@@ -20,6 +20,7 @@ export default function Create({ auth }) {
         password: '',
         password_confirmation: '',
         role: 'user',
+        uid: '',
     });
 
     const submit = (e) => {
@@ -47,6 +48,21 @@ export default function Create({ auth }) {
                             </header>
 
                             <form onSubmit={submit} className="mt-6 space-y-6">
+                                <div>
+                                    <InputLabel htmlFor="uid" value="RFID" />
+
+                                    <TextInput
+                                        id="uid"
+                                        className="mt-1 block w-full"
+                                        value={data.uid}
+                                        onChange={(e) => setData('uid', e.target.value)}
+                                        isFocused
+                                        readOnly
+                                    />
+
+                                    <InputError className="mt-2" message={errors.uid} />
+                                </div>
+
                                 <div>
                                     <InputLabel htmlFor="name" value="Name" />
 

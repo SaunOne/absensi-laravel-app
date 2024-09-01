@@ -26,7 +26,8 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed',
             'password_confirmation' => 'required',
-            'role'=> 'required|in:admin,user'
+            'role'=> 'required|in:admin,user',
+            'uid' => 'nullable|unique:users,uid'
         ]);
 
         if($request->role == 'admin'){
@@ -51,7 +52,8 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$user->id,
-            'role'=> 'required|in:admin,user'
+            'role'=> 'required|in:admin,user',
+            'uid' => 'nullable|unique:users,uid,'.$user->id
         ]);
 
         $user->update($request->all());

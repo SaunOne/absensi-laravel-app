@@ -40,6 +40,9 @@ export default function TableUsers({ users }) {
                             ID
                         </th>
                         <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            RFID
+                        </th>
+                        <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                             Name
                         </th>
                         <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -58,6 +61,9 @@ export default function TableUsers({ users }) {
                         <tr key={user.id}>
                             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                 <div className="text-sm leading-5 text-gray-900">{user.id}</div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                <div className="text-sm leading-5 text-gray-900">{user.uid}</div>
                             </td>
                             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                 <div className="text-sm leading-5 text-gray-900">{user.name}</div>
