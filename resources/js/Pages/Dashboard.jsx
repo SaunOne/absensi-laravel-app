@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import SubmitAttendance from '@/Components/Attendance/SubmitAttendance';
+import Submitted from '@/Components/Attendance/Submitted';
 export default function Dashboard({ auth, submitted }) {
     return (
         <AuthenticatedLayout
@@ -16,7 +17,9 @@ export default function Dashboard({ auth, submitted }) {
                     </div>
                     <div className="mt-4 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
-                            <SubmitAttendance />
+                            {
+                                submitted ? <Submitted /> : <SubmitAttendance />
+                            }
                         </div>
                     </div>
                 </div>
