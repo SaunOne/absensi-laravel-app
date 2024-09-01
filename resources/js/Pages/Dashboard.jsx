@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import SubmitAttendance from '@/Components/Attendance/SubmitAttendance';
-export default function Dashboard({ auth }) {
+export default function Dashboard({ auth, submitted }) {
     return (
         <AuthenticatedLayout
             user={auth.user}

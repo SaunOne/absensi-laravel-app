@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use Illuminate\Support\Facades\Auth;
 class AttendanceController extends Controller
 {
     public function submit(Request $request){
@@ -23,5 +24,12 @@ class AttendanceController extends Controller
             'longitude' => $request->longitude,
             'address' => $request->address,
         ]);
+    }
+
+    static function isTodayAttendanceSubmitted() : bool {
+        if(!Auth::check()) return false;
+        return Attendance::where('user_id', Auth::user()->id)
+            ->whereDate('created_at', now()->toDateString())
+            ->exists();
     }
 }
