@@ -14,7 +14,7 @@ import { useState } from 'react';
 export default function Create({ auth }) {
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
-    const { data, setData, post, errors, processing } = useForm({
+    const { data, setData, post, errors, processing, reset } = useForm({
         name: '',
         email: '',
         password: '',
@@ -27,6 +27,16 @@ export default function Create({ auth }) {
         e.preventDefault();
         post(route('users.store'));
     };
+
+    window.Echo.channel('read-rfid-channel').listen('ReadRfidEvent', (e) => {
+        if (e.code === 'EXIST') {
+            errors.uid = e.message;
+            reset('uid');
+        } else {
+            errors.uid = '';
+            setData('uid', e.uid);
+        }
+    });
 
     return (
         <AuthenticatedLayout

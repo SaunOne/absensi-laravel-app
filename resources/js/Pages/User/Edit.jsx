@@ -7,23 +7,28 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
 import SelectBox from '@/Components/SelectBox';
-import { useState } from 'react';
-
 
 export default function Edit({ auth, user }) {
-    const [showPassword, setShowPassword] = useState(false);
-    const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
-    const { data, setData, patch, errors, processing } = useForm({
+    const { data, setData, patch, errors, processing, reset } = useForm({
         name: user.name,
         email: user.email,
         role: user.role,
-        uid: user.uid,
+        uid: user.uid || '',
     });
 
     const submit = (e) => {
         e.preventDefault();
         patch(route('users.update', user));
     };
+    window.Echo.channel('read-rfid-channel').listen('ReadRfidEvent', (e) => {
+        if (e.code === 'EXIST') {
+            errors.uid = e.message;
+            reset('uid');
+        } else {
+            errors.uid = '';
+            setData('uid', e.uid);
+        }
+    });
 
     return (
         <AuthenticatedLayout
