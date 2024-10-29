@@ -41,6 +41,8 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: php artisan test
+      - name: Create /tmp/deploy directory
+        run: mkdir -p /tmp/deploy
       - name: Deploy to cPanel
         env:
           CPanelUser: ${{ secrets.CPANELUSER }}
