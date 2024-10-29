@@ -51,4 +51,4 @@ jobs:
         run: |
           echo "$SSH_KEY" > /tmp/deploy_key
           chmod 600 /tmp/deploy
-          rsync -avz -e "ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no" ./ $CPanelUser@$CPanelDomain:public_html
+          rsync -avz --exclude-from=.rsyncignore  "ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no" ./ $CPanelUser@$CPanelDomain:public_html
