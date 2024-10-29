@@ -41,3 +41,12 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: php artisan test
+      - name: Deploy to cPanel
+        env:
+          CPanelUser: ${{ secrets.CPANELUSER }}
+          CPanelDomain: ${{ secrets.CPANELUSER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          echo "$SSH_KEY" > /tmp/deploy_key
+          chmod 600 /tmp/deploy
+          rsync -avz -e "ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no" --exclude-from=.rsyncignore ./ $CPanelUser@$CPanelDomain:public_html
